@@ -1,0 +1,860 @@
+--- cflowd-2-1-b1/apps/cfdcollect/CflowdServer.cc.orig	Fri Oct 15 20:52:03 1999
++++ cflowd-2-1-b1/apps/cfdcollect/CflowdServer.cc	Fri Feb 13 20:09:49 2004
+@@ -52,12 +52,14 @@
+ }
+ 
+ #include <fstream.h>
+-#include <strstream.h>
++#include <strstream>
+ #include <string>
+ 
+ #include "CflowdServer.hh"
+ #include "CflowdCisco.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ #ifndef INADDR_NONE
+--- cflowd-2-1-b1/apps/cflowd/cflowd.cc.orig	Fri Feb 13 19:00:42 2004
++++ cflowd-2-1-b1/apps/cflowd/cflowd.cc	Fri Feb 13 20:07:36 2004
+@@ -67,7 +67,7 @@
+ }
+ 
+ #include <string>
+-#include <strstream.h>
++#include <strstream>
+ 
+ #include "CflowdConfig.hh"
+ #include "CflowdConfigLex.hh"
+@@ -77,6 +77,8 @@
+ #include "CflowdVersion.hh"
+ #include "Signal.hh"
+ 
++using namespace std;
++
+ #define k_flowsToRead  64
+ 
+ static const string         rcsid = "@(#) $Name$ $Id$";
+--- cflowd-2-1-b1/apps/cflowdmux/CflowdRawFlowClientList.hh.orig	Mon Sep 14 20:10:23 1998
++++ cflowd-2-1-b1/apps/cflowdmux/CflowdRawFlowClientList.hh	Fri Feb 13 20:06:07 2004
+@@ -53,6 +53,8 @@
+ 
+ #include <list>
+ 
++using std::list;
++
+ //---------------------------------------------------------------------------
+ //  class CflowdRawFlowClient
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/apps/cflowdmux/CflowdRawFlowClientList.cc.orig	Thu Aug 19 03:52:14 1999
++++ cflowd-2-1-b1/apps/cflowdmux/CflowdRawFlowClientList.cc	Fri Feb 13 20:06:28 2004
+@@ -47,6 +47,8 @@
+ 
+ #include "CflowdRawFlowClientList.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ //-------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdAsMatrix.hh.orig	Mon Sep 21 18:31:43 1998
++++ cflowd-2-1-b1/classes/include/CflowdAsMatrix.hh	Fri Feb 13 19:11:02 2004
+@@ -55,6 +55,9 @@
+ #include "CflowdAsMatrixTrafficCounter.hh"
+ #include "CflowdRawFlow.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef  map<CflowdAsMatrixKey, CflowdAsMatrixTrafficCounter, less<CflowdAsMatrixKey> >   CflowdAsMatrixMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdNetMatrixKey.hh.orig	Sun Feb  7 19:16:39 1999
++++ cflowd-2-1-b1/classes/include/CflowdNetMatrixKey.hh	Fri Feb 13 19:13:13 2004
+@@ -191,9 +191,9 @@
+   inline istream & read(istream & is)
+   {
+     g_CfdArtsPrimitive.ReadIpv4Network(is,this->_src,sizeof(this->_src));
+-    is.read(&(this->_srcMaskLen),sizeof(this->_srcMaskLen));
++    is.read((char*)&(this->_srcMaskLen),sizeof(this->_srcMaskLen));
+     g_CfdArtsPrimitive.ReadIpv4Network(is,this->_dst,sizeof(this->_dst));
+-    is.read(&(this->_dstMaskLen),sizeof(this->_dstMaskLen));
++    is.read((char*)&(this->_dstMaskLen),sizeof(this->_dstMaskLen));
+     
+     return(is);
+   }
+@@ -263,9 +263,9 @@
+   inline ostream & write(ostream & os) const
+   {
+     g_CfdArtsPrimitive.WriteIpv4Network(os,this->_src,sizeof(this->_src));
+-    os.write(&(this->_srcMaskLen),sizeof(this->_srcMaskLen));
++    os.write((char*)&(this->_srcMaskLen),sizeof(this->_srcMaskLen));
+     g_CfdArtsPrimitive.WriteIpv4Network(os,this->_dst,sizeof(this->_dst));
+-    os.write(&(this->_dstMaskLen),sizeof(this->_dstMaskLen));
++    os.write((char*)&(this->_dstMaskLen),sizeof(this->_dstMaskLen));
+     return(os);
+   }
+   
+--- cflowd-2-1-b1/classes/include/CflowdNetMatrix.hh.orig	Mon Sep 21 21:14:58 1998
++++ cflowd-2-1-b1/classes/include/CflowdNetMatrix.hh	Fri Feb 13 19:13:50 2004
+@@ -55,6 +55,9 @@
+ #include "CflowdNetMatrixTrafficCounter.hh"
+ #include "CflowdRawFlow.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef  map<CflowdNetMatrixKey, CflowdNetMatrixTrafficCounter, less<CflowdNetMatrixKey> >   CflowdNetMatrixMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdPortMatrix.hh.orig	Mon Sep 21 21:28:33 1998
++++ cflowd-2-1-b1/classes/include/CflowdPortMatrix.hh	Fri Feb 13 19:15:15 2004
+@@ -56,6 +56,9 @@
+ #include "CflowdPortMatrixTrafficCounter.hh"
+ #include "CflowdRawFlow.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef  map<CflowdPortMatrixKey, CflowdPortMatrixTrafficCounter, less<CflowdPortMatrixKey> >   CflowdPortMatrixMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdProtocolTable.hh.orig	Wed Sep 16 19:53:33 1998
++++ cflowd-2-1-b1/classes/include/CflowdProtocolTable.hh	Fri Feb 13 19:17:52 2004
+@@ -55,6 +55,9 @@
+ #include "CflowdProtocolTableTrafficCounter.hh"
+ #include "CflowdRawFlow.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef map<uint8_t,CflowdProtocolTableTrafficCounter,less<uint8_t> > _CflowdProtocolTableMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdRawFlowLogger.hh.orig	Wed Aug 11 18:11:35 1999
++++ cflowd-2-1-b1/classes/include/CflowdRawFlowLogger.hh	Fri Feb 13 19:21:44 2004
+@@ -42,6 +42,9 @@
+ #ifndef _CFLOWDRAWFLOWLOGGER_HH_
+ #define _CFLOWDRAWFLOWLOGGER_HH_
+ 
++#include <string>
++using std::string;
++
+ //---------------------------------------------------------------------------
+ //  class CflowdRawFlowLogger
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdCiscoFlowEngine.hh.orig	Thu Feb 18 09:00:44 1999
++++ cflowd-2-1-b1/classes/include/CflowdCiscoFlowEngine.hh	Fri Feb 13 19:27:22 2004
+@@ -169,7 +169,7 @@
+   //  Sets and returns the number of missed flows for the flow engine for
+   //  a given aggregaiton method.
+   //--------------------------------------------------------------------------
+-  inline uint32_t MissedFlows(uint32_t missedFlows, uint8_t aggMethod = 0)
++  inline uint32_t MissedFlows(uint32_t missedFlows, uint8_t aggMethod /* = 0 -- ambiguous */)
+   {
+     if (aggMethod > k_CiscoV8FlowExportMaxAggType) {
+       syslog(LOG_ERR,
+@@ -210,7 +210,7 @@
+   //  engine for a given aggregation method.
+   //--------------------------------------------------------------------------
+   inline uint32_t FlowsReceived(uint32_t flowsReceived,
+-                                uint8_t aggMethod = 0)
++                                uint8_t aggMethod /* = 0 -- ambiguous */)
+   {
+     if (aggMethod > k_CiscoV8FlowExportMaxAggType) {
+       syslog(LOG_ERR,
+--- cflowd-2-1-b1/classes/include/CflowdInterfaceInfo.hh.orig	Wed May 26 13:36:59 1999
++++ cflowd-2-1-b1/classes/include/CflowdInterfaceInfo.hh	Fri Feb 13 19:47:53 2004
+@@ -51,6 +51,8 @@
+ 
+ #include "snmp++/snmp_pp.h"
+ 
++using std::string;
++
+ #ifndef INADDR_NONE
+   #define INADDR_NONE 0xffffffff
+ #endif
+--- cflowd-2-1-b1/classes/include/CflowdInterfaceMatrix.hh.orig	Mon Sep 21 20:54:27 1998
++++ cflowd-2-1-b1/classes/include/CflowdInterfaceMatrix.hh	Fri Feb 13 19:48:54 2004
+@@ -55,6 +55,9 @@
+ #include "CflowdInterfaceMatrixTrafficCounter.hh"
+ #include "CflowdRawFlow.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef  map<CflowdInterfaceMatrixKey, CflowdInterfaceMatrixTrafficCounter, less<CflowdInterfaceMatrixKey> >   CflowdInterfaceMatrixMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdTosTable.hh.orig	Fri Apr 30 22:02:15 1999
++++ cflowd-2-1-b1/classes/include/CflowdTosTable.hh	Fri Feb 13 19:55:10 2004
+@@ -55,6 +55,9 @@
+ #include "CflowdTosTableTrafficCounter.hh"
+ #include "CflowdRawFlow.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef map<uint8_t,CflowdTosTableTrafficCounter,less<uint8_t> > _CflowdTosTableMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdRawFlowConverter.hh.orig	Fri Sep 25 07:27:08 1998
++++ cflowd-2-1-b1/classes/include/CflowdRawFlowConverter.hh	Fri Feb 13 19:32:55 2004
+@@ -52,6 +52,8 @@
+ 
+ #include "CflowdRawFlow.hh"
+ 
++using std::vector;
++
+ //---------------------------------------------------------------------------
+ //  class CflowdRawFlowConverter
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdFlowFilter.hh.orig	Sat Dec 12 11:06:37 1998
++++ cflowd-2-1-b1/classes/include/CflowdFlowFilter.hh	Fri Feb 13 19:58:29 2004
+@@ -47,6 +47,8 @@
+ 
+ #include "CflowdRawFlow.hh"
+ 
++using std::vector;
++
+ extern int          flowfiltparse (void);
+ extern int          flowfiltparseval;
+ 
+--- cflowd-2-1-b1/classes/include/CflowdFlowPortList.hh.orig	Tue Oct 20 00:40:50 1998
++++ cflowd-2-1-b1/classes/include/CflowdFlowPortList.hh	Fri Feb 13 19:39:53 2004
+@@ -50,6 +50,8 @@
+ 
+ #include <list>
+ 
++using std::list;
++
+ //---------------------------------------------------------------------------
+ //  class CflowdFlowPort
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/Signal.hh.orig	Mon Sep 14 19:07:32 1998
++++ cflowd-2-1-b1/classes/include/Signal.hh	Fri Feb 13 19:41:36 2004
+@@ -47,6 +47,8 @@
+ #include <signal.h>
+ }
+ 
++using std::deque;
++
+ typedef struct sigaction sigactStruct;
+ 
+ //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- cflowd-2-1-b1/classes/include/CflowdNextHopTable.hh.orig	Fri Sep 18 13:33:33 1998
++++ cflowd-2-1-b1/classes/include/CflowdNextHopTable.hh	Fri Feb 13 19:50:19 2004
+@@ -57,6 +57,9 @@
+ #include "CflowdNextHopTableTrafficCounter.hh"
+ #include "CflowdRawFlow.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef map<ipv4addr_t,CflowdNextHopTableTrafficCounter,less<ipv4addr_t> > _CflowdNextHopTableMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdVersion.hh.orig	Tue Oct 13 02:00:39 1998
++++ cflowd-2-1-b1/classes/include/CflowdVersion.hh	Fri Feb 13 19:57:06 2004
+@@ -44,6 +44,8 @@
+ 
+ #include <string>
+ 
++using std::string;
++
+ //---------------------------------------------------------------------------
+ //  class CflowdVersion
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/include/CflowdCollectorMap.hh.orig	Mon Sep 21 19:48:32 1998
++++ cflowd-2-1-b1/classes/include/CflowdCollectorMap.hh	Fri Feb 13 19:44:10 2004
+@@ -51,6 +51,9 @@
+ 
+ #include "CflowdCollector.hh"
+ 
++using std::map;
++using std::less;
++
+ typedef map<ipv4addr_t,CflowdCollector *,less<ipv4addr_t> > _CflowdCollectorMap_t;
+ 
+ //---------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/src/CflowdCollectorMap.cc.orig	Wed Sep 16 14:22:05 1998
++++ cflowd-2-1-b1/classes/src/CflowdCollectorMap.cc	Fri Feb 13 19:46:02 2004
+@@ -43,6 +43,8 @@
+ 
+ #include "CflowdCollectorMap.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ //-------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/src/CflowdTosTable.cc.orig	Fri Apr 30 22:02:17 1999
++++ cflowd-2-1-b1/classes/src/CflowdTosTable.cc	Fri Feb 13 19:56:28 2004
+@@ -43,6 +43,8 @@
+ 
+ #include "CflowdTosTable.hh"
+ 
++using namespace std;
++
+ #define k_flowTosTableFieldsMask (CflowdRawFlow::k_tosMask|\
+                                        CflowdRawFlow::k_pktsMask|\
+                                        CflowdRawFlow::k_bytesMask)
+@@ -82,9 +84,9 @@
+     (*this).erase((*this).begin(),(*this).end());
+   }
+ 
+-  is.read(&numToss,sizeof(numToss));
++  is.read((char*)&numToss,sizeof(numToss));
+   for (tosNum = 0; tosNum < numToss; tosNum++) {
+-    is.read(&tos,sizeof(tos));
++    is.read((char*)&tos,sizeof(tos));
+     protoTraffic.read(is);
+     (*this)[tos] = protoTraffic;
+   }
+@@ -151,11 +153,11 @@
+   CflowdTosTable::const_iterator  protoIter;
+   
+   numToss = (*this).size();
+-  os.write(&numToss,sizeof(numToss));
++  os.write((char*)&numToss,sizeof(numToss));
+ 
+   for (protoIter = (*this).begin(); protoIter != (*this).end(); protoIter++) {
+     tos = (*protoIter).first;
+-    os.write(&tos,sizeof(tos));
++    os.write((char*)&tos,sizeof(tos));
+     (*protoIter).second.write(os);
+   }
+   return(os);
+--- cflowd-2-1-b1/classes/src/FlowFilterLex.cc.orig	Sat Dec 12 10:53:19 1998
++++ cflowd-2-1-b1/classes/src/FlowFilterLex.cc	Fri Feb 13 19:59:28 2004
+@@ -45,6 +45,7 @@
+ #include "CflowdFlowFilter.hh"
+ #include "flowfilt.tab.h"
+ 
++using namespace std;
+ extern int       flowfiltlval;
+ 
+ static const string rcsid = "@(#) $Name$ $Id$";
+--- cflowd-2-1-b1/classes/src/CflowdAsMatrix.cc.orig	Fri Feb 19 03:20:04 1999
++++ cflowd-2-1-b1/classes/src/CflowdAsMatrix.cc	Fri Feb 13 19:09:35 2004
+@@ -40,11 +40,13 @@
+ //===========================================================================
+ 
+ #include <string>
+-#include <strstream.h>
++#include <strstream>
+ 
+ #include "ArtsPrimitive.hh"
+ #include "CflowdAsMatrix.hh"
+ 
++using namespace std;
++
+ #define k_flowAsMatrixFieldsMask  (CflowdRawFlow::k_srcAsMask|\
+                                    CflowdRawFlow::k_dstAsMask|\
+                                    CflowdRawFlow::k_pktsMask|\
+--- cflowd-2-1-b1/classes/src/CflowdCollector.cc.orig	Wed Sep 16 14:20:26 1998
++++ cflowd-2-1-b1/classes/src/CflowdCollector.cc	Fri Feb 13 19:43:40 2004
+@@ -43,6 +43,8 @@
+ 
+ #include "CflowdCollector.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ //-------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/src/CflowdNetMatrix.cc.orig	Sat Aug 28 10:52:02 1999
++++ cflowd-2-1-b1/classes/src/CflowdNetMatrix.cc	Fri Feb 13 19:11:45 2004
+@@ -40,11 +40,13 @@
+ //===========================================================================
+ 
+ #include <string>
+-#include <strstream.h>
++#include <strstream>
+ 
+ #include "ArtsPrimitive.hh"
+ #include "CflowdNetMatrix.hh"
+ 
++using namespace std;
++
+ #define k_flowNetMatrixV5FieldsMask (CflowdRawFlow::k_srcIpAddrMask|\
+                                      CflowdRawFlow::k_dstIpAddrMask|\
+                                      CflowdRawFlow::k_srcMaskLenMask|\
+--- cflowd-2-1-b1/classes/src/CflowdPortMatrix.cc.orig	Tue Feb  9 20:12:51 1999
++++ cflowd-2-1-b1/classes/src/CflowdPortMatrix.cc	Fri Feb 13 19:15:43 2004
+@@ -40,11 +40,13 @@
+ //===========================================================================
+ 
+ #include <string>
+-#include <strstream.h>
++#include <strstream>
+ 
+ #include "ArtsPrimitive.hh"
+ #include "CflowdPortMatrix.hh"
+ 
++using namespace std;
++
+ #define k_flowPortMatrixFieldsMask (CflowdRawFlow::k_srcPortMask|\
+                                     CflowdRawFlow::k_dstPortMask|\
+                                     CflowdRawFlow::k_pktsMask|\
+--- cflowd-2-1-b1/classes/src/FlowFilter.y.orig	Fri Dec 11 17:06:50 1998
++++ cflowd-2-1-b1/classes/src/FlowFilter.y	Fri Feb 13 20:01:24 2004
+@@ -46,6 +46,8 @@
+   
+   #include "CflowdRawFlow.hh"
+ 
++  using namespace std;
++
+   static const string rcsid = "@(#) $Name$ $Id$";
+   
+   extern int            flowfiltparseval;
+--- cflowd-2-1-b1/classes/src/CflowdProtocolTable.cc.orig	Fri Dec 11 11:17:51 1998
++++ cflowd-2-1-b1/classes/src/CflowdProtocolTable.cc	Fri Feb 13 19:20:41 2004
+@@ -43,6 +43,8 @@
+ 
+ #include "CflowdProtocolTable.hh"
+ 
++using namespace std;
++
+ #define k_flowProtocolTableFieldsMask (CflowdRawFlow::k_protocolMask|\
+                                        CflowdRawFlow::k_pktsMask|\
+                                        CflowdRawFlow::k_bytesMask)
+@@ -82,9 +84,9 @@
+     (*this).erase((*this).begin(),(*this).end());
+   }
+ 
+-  is.read(&numProtocols,sizeof(numProtocols));
++  is.read((char*)&numProtocols,sizeof(numProtocols));
+   for (protocolNum = 0; protocolNum < numProtocols; protocolNum++) {
+-    is.read(&protocol,sizeof(protocol));
++    is.read((char*)&protocol,sizeof(protocol));
+     protoTraffic.read(is);
+     (*this)[protocol] = protoTraffic;
+   }
+@@ -151,11 +153,11 @@
+   CflowdProtocolTable::const_iterator  protoIter;
+   
+   numProtocols = (*this).size();
+-  os.write(&numProtocols,sizeof(numProtocols));
++  os.write((char*)&numProtocols,sizeof(numProtocols));
+ 
+   for (protoIter = (*this).begin(); protoIter != (*this).end(); protoIter++) {
+     protocol = (*protoIter).first;
+-    os.write(&protocol,sizeof(protocol));
++    os.write((char*)&protocol,sizeof(protocol));
+     (*protoIter).second.write(os);
+   }
+   return(os);
+--- cflowd-2-1-b1/classes/src/CflowdNextHopTable.cc.orig	Fri Dec 11 11:17:50 1998
++++ cflowd-2-1-b1/classes/src/CflowdNextHopTable.cc	Fri Feb 13 19:52:07 2004
+@@ -43,6 +43,8 @@
+ 
+ #include "CflowdNextHopTable.hh"
+ 
++using namespace std;
++
+ #define k_flowNextHopTableFieldsMask (CflowdRawFlow::k_ipNextHopMask|\
+                                       CflowdRawFlow::k_pktsMask|\
+                                       CflowdRawFlow::k_bytesMask)
+@@ -82,11 +84,11 @@
+     (*this).erase((*this).begin(),(*this).end());
+   }
+ 
+-  is.read(&numNextHops,sizeof(numNextHops));
++  is.read((char*)&numNextHops,sizeof(numNextHops));
+   numNextHops = ntohl(numNextHops);
+   
+   for (nextHopNum = 0; nextHopNum < numNextHops; nextHopNum++) {
+-    is.read(&nextHop,sizeof(nextHop));
++    is.read((char*)&nextHop,sizeof(nextHop));
+     nextHopTraffic.read(is);
+     (*this)[nextHop] = nextHopTraffic;
+   }
+@@ -154,12 +156,12 @@
+   
+   numNextHops = (*this).size();
+   numNextHops = htonl(numNextHops);
+-  os.write(&numNextHops,sizeof(numNextHops));
++  os.write((char*)&numNextHops,sizeof(numNextHops));
+ 
+   for (nextHopIter = (*this).begin(); nextHopIter != (*this).end();
+        nextHopIter++) {
+     nextHop = (*nextHopIter).first;
+-    os.write(&nextHop,sizeof(nextHop));
++    os.write((char*)&nextHop,sizeof(nextHop));
+     (*nextHopIter).second.write(os);
+   }
+   return(os);
+--- cflowd-2-1-b1/classes/src/CflowdCisco.cc.orig	Thu Aug  3 19:20:45 2000
++++ cflowd-2-1-b1/classes/src/CflowdCisco.cc	Fri Feb 13 19:26:14 2004
+@@ -47,10 +47,12 @@
+ }
+ 
+ #include <string>
+-#include <strstream.h>
++#include <strstream>
+ 
+ #include "CflowdCisco.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ static Oid   g_ipAdEntIfIndexOid("1.3.6.1.2.1.4.20.1.2");
+--- cflowd-2-1-b1/classes/src/CflowdPacketQueue.cc.orig	Tue Oct 24 18:18:55 2000
++++ cflowd-2-1-b1/classes/src/CflowdPacketQueue.cc	Fri Feb 13 19:53:58 2004
+@@ -77,6 +77,8 @@
+ 
+ #include "CflowdPacketQueue.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ //-------------------------------------------------------------------------
+@@ -401,7 +403,7 @@
+ //.........................................................................
+ //  
+ //-------------------------------------------------------------------------
+-int CflowdPacketQueue::GetLock(uint8_t bufNum = 0xff)
++int CflowdPacketQueue::GetLock(uint8_t bufNum /* = 0xff */)
+ {
+   if (bufNum == 0xff)
+     bufNum = this->_currentBuffer;
+@@ -424,7 +426,7 @@
+ //.........................................................................
+ //  
+ //-------------------------------------------------------------------------
+-int CflowdPacketQueue::ReleaseLock(uint8_t bufNum = 0xff)
++int CflowdPacketQueue::ReleaseLock(uint8_t bufNum /* = 0xff */)
+ {
+   if (bufNum == 0xff)
+     bufNum = this->_currentBuffer;
+--- cflowd-2-1-b1/classes/src/CflowdCiscoFlowEngine.cc.orig	Thu Feb 18 09:04:41 1999
++++ cflowd-2-1-b1/classes/src/CflowdCiscoFlowEngine.cc	Fri Feb 13 19:28:31 2004
+@@ -47,6 +47,8 @@
+ 
+ #include "CflowdCiscoFlowEngine.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ //-------------------------------------------------------------------------
+@@ -58,7 +60,7 @@
+ //-------------------------------------------------------------------------
+ uint32_t CflowdCiscoFlowEngine::SequenceNumber(uint32_t seqNumber,
+                                                uint16_t flowCount,
+-                                               uint8_t aggMethod = 0)
++                                               uint8_t aggMethod /* = 0 */)
+ {
+   if (aggMethod > k_CiscoV8FlowExportMaxAggType) {
+     syslog(LOG_ERR,
+--- cflowd-2-1-b1/classes/src/CflowdRawFlowLogger.cc.orig	Wed Dec 23 00:35:57 1998
++++ cflowd-2-1-b1/classes/src/CflowdRawFlowLogger.cc	Fri Feb 13 19:54:37 2004
+@@ -63,12 +63,14 @@
+ #endif
+ 
+ #include <string>
+-#include <strstream.h>
++#include <strstream>
+ 
+ #include "CflowdRawFlow.hh"
+ #include "CflowdRawFlowLogger.hh"
+ #include "ArtsPrimitive.hh"
+ 
++using namespace std;
++
+ extern ArtsPrimitive g_CfdArtsPrimitive;
+ 
+ static const string rcsid = "@(#) $Name$ $Id$";
+--- cflowd-2-1-b1/classes/src/CflowdInterfaceMatrix.cc.orig	Fri Dec 11 11:17:50 1998
++++ cflowd-2-1-b1/classes/src/CflowdInterfaceMatrix.cc	Fri Feb 13 19:49:42 2004
+@@ -44,6 +44,8 @@
+ #include "ArtsPrimitive.hh"
+ #include "CflowdInterfaceMatrix.hh"
+ 
++using namespace std;
++
+ #define k_flowInterfaceMatrixFieldsMask (CflowdRawFlow::k_inputIfIndexMask|\
+                                          CflowdRawFlow::k_outputIfIndexMask|\
+                                          CflowdRawFlow::k_pktsMask|\
+--- cflowd-2-1-b1/classes/src/CflowdCiscoMap.cc.orig	Tue May 25 12:27:07 1999
++++ cflowd-2-1-b1/classes/src/CflowdCiscoMap.cc	Fri Feb 13 19:43:13 2004
+@@ -112,7 +112,7 @@
+   }
+         
+   numCiscos = htonl(numCiscos);
+-  os.write(&numCiscos,sizeof(numCiscos));
++  os.write((char*)&numCiscos,sizeof(numCiscos));
+   
+   for (ciscomIter = (*this).begin(); ciscomIter != (*this).end();
+        ciscomIter++) {
+--- cflowd-2-1-b1/classes/src/filtexpr.lex.orig	Wed May 26 13:01:09 1999
++++ cflowd-2-1-b1/classes/src/filtexpr.lex	Fri Feb 13 20:04:30 2004
+@@ -59,6 +59,8 @@
+ #include "CflowdFlowFilter.hh"
+ #include "flowfilt.tab.h"
+ 
++using namespace std;
++
+ extern int       flowfiltlval;
+ extern int       flowfiltparse (void);
+ 
+--- cflowd-2-1-b1/classes/src/CflowdRawFlow.cc.orig	Sat Jan  8 01:57:33 2000
++++ cflowd-2-1-b1/classes/src/CflowdRawFlow.cc	Fri Feb 13 19:32:16 2004
+@@ -49,6 +49,8 @@
+ #include "CflowdRawFlow.hh"
+ #include "ArtsPrimitive.hh"
+ 
++using namespace std;
++
+ extern ArtsPrimitive g_CfdArtsPrimitive;
+ 
+ static const string rcsid = "@(#) $Name$ $Id$";
+@@ -336,82 +338,82 @@
+ 
+   this->data._isHostOrder = false;
+   
+-  is.read(&(this->data._index),sizeof(this->data._index));
++  is.read((char*)&(this->data._index),sizeof(this->data._index));
+   if (! is)
+     return(is);
+   flowIndex = ntohl(this->data._index);
+ 
+   if (flowIndex & CflowdRawFlow::k_routerMask) {
+-    is.read(&(this->data._router),sizeof(this->data._router));
++    is.read((char*)&(this->data._router),sizeof(this->data._router));
+   }
+   if (flowIndex & CflowdRawFlow::k_srcIpAddrMask) {
+-    is.read(&(this->data._srcIpAddr),sizeof(this->data._srcIpAddr));
++    is.read((char*)&(this->data._srcIpAddr),sizeof(this->data._srcIpAddr));
+   }
+   if (flowIndex & CflowdRawFlow::k_dstIpAddrMask) {
+-    is.read(&(this->data._dstIpAddr),sizeof(this->data._dstIpAddr));
++    is.read((char*)&(this->data._dstIpAddr),sizeof(this->data._dstIpAddr));
+   }
+   if (flowIndex & CflowdRawFlow::k_inputIfIndexMask) {
+-    is.read(&(this->data._inputIfIndex),sizeof(this->data._inputIfIndex));
++    is.read((char*)&(this->data._inputIfIndex),sizeof(this->data._inputIfIndex));
+   }
+   if (flowIndex & CflowdRawFlow::k_outputIfIndexMask) {
+-    is.read(&(this->data._outputIfIndex),sizeof(this->data._outputIfIndex));
++    is.read((char*)&(this->data._outputIfIndex),sizeof(this->data._outputIfIndex));
+   }
+   if (flowIndex & CflowdRawFlow::k_srcPortMask) {
+-    is.read(&(this->data._srcPort),sizeof(this->data._srcPort));
++    is.read((char*)&(this->data._srcPort),sizeof(this->data._srcPort));
+   }
+   if (flowIndex & CflowdRawFlow::k_dstPortMask) {
+-    is.read(&(this->data._dstPort),sizeof(this->data._dstPort));
++    is.read((char*)&(this->data._dstPort),sizeof(this->data._dstPort));
+   }
+   if (flowIndex & CflowdRawFlow::k_pktsMask) {
+-    is.read(&(this->data._pkts),sizeof(this->data._pkts));
++    is.read((char*)&(this->data._pkts),sizeof(this->data._pkts));
+   }
+   if (flowIndex & CflowdRawFlow::k_bytesMask) {
+-    is.read(&(this->data._bytes),sizeof(this->data._bytes));
++    is.read((char*)&(this->data._bytes),sizeof(this->data._bytes));
+   }
+   if (flowIndex & CflowdRawFlow::k_ipNextHopMask) {
+-    is.read(&(this->data._ipNextHop),sizeof(this->data._ipNextHop));
++    is.read((char*)&(this->data._ipNextHop),sizeof(this->data._ipNextHop));
+   }
+   if (flowIndex & CflowdRawFlow::k_startTimeMask) {
+-    is.read(&(this->data._startTime),sizeof(this->data._startTime));
++    is.read((char*)&(this->data._startTime),sizeof(this->data._startTime));
+   }
+   if (flowIndex & CflowdRawFlow::k_endTimeMask) {
+-    is.read(&(this->data._endTime),sizeof(this->data._endTime));
++    is.read((char*)&(this->data._endTime),sizeof(this->data._endTime));
+   }
+   if (flowIndex & CflowdRawFlow::k_protocolMask) {
+-    is.read(&(this->data._protocol),sizeof(this->data._protocol));
++    is.read((char*)&(this->data._protocol),sizeof(this->data._protocol));
+   }
+   if (flowIndex & CflowdRawFlow::k_tosMask) {
+-    is.read(&(this->data._tos),sizeof(this->data._tos));
++    is.read((char*)&(this->data._tos),sizeof(this->data._tos));
+   }
+   if (flowIndex & CflowdRawFlow::k_srcAsMask) {
+-    is.read(&(this->data._srcAs),sizeof(this->data._srcAs));
++    is.read((char*)&(this->data._srcAs),sizeof(this->data._srcAs));
+   }
+   if (flowIndex & CflowdRawFlow::k_dstAsMask) {
+-    is.read(&(this->data._dstAs),sizeof(this->data._dstAs));
++    is.read((char*)&(this->data._dstAs),sizeof(this->data._dstAs));
+   }
+   if (flowIndex & CflowdRawFlow::k_srcMaskLenMask) {
+-    is.read(&(this->data._srcMaskLen),sizeof(this->data._srcMaskLen));
++    is.read((char*)&(this->data._srcMaskLen),sizeof(this->data._srcMaskLen));
+   }
+   if (flowIndex & CflowdRawFlow::k_dstMaskLenMask) {
+-    is.read(&(this->data._dstMaskLen),sizeof(this->data._dstMaskLen));
++    is.read((char*)&(this->data._dstMaskLen),sizeof(this->data._dstMaskLen));
+   }
+   if (flowIndex & CflowdRawFlow::k_tcpFlagsMask) {
+-    is.read(&(this->data._tcpFlags),sizeof(this->data._tcpFlags));
++    is.read((char*)&(this->data._tcpFlags),sizeof(this->data._tcpFlags));
+   }
+   if (flowIndex & CflowdRawFlow::k_inputEncapMask) {
+-    is.read(&(this->data._inputEncap),sizeof(this->data._inputEncap));
++    is.read((char*)&(this->data._inputEncap),sizeof(this->data._inputEncap));
+   }
+   if (flowIndex & CflowdRawFlow::k_outputEncapMask) {
+-    is.read(&(this->data._outputEncap),sizeof(this->data._outputEncap));
++    is.read((char*)&(this->data._outputEncap),sizeof(this->data._outputEncap));
+   }
+   if (flowIndex & CflowdRawFlow::k_peerNextHopMask) {
+-    is.read(&(this->data._peerNextHop),sizeof(this->data._peerNextHop));
++    is.read((char*)&(this->data._peerNextHop),sizeof(this->data._peerNextHop));
+   }
+   if (flowIndex & CflowdRawFlow::k_engineTypeMask) {
+-    is.read(&(this->data._engineType),sizeof(this->data._engineType));
++    is.read((char*)&(this->data._engineType),sizeof(this->data._engineType));
+   }
+   if (flowIndex & CflowdRawFlow::k_engineIdMask) {
+-    is.read(&(this->data._engineId),sizeof(this->data._engineId));
++    is.read((char*)&(this->data._engineId),sizeof(this->data._engineId));
+   }
+   
+   //  convert to host byte order
+@@ -982,56 +984,56 @@
+   
+   rawFlow.ToNetworkByteOrder();
+   
+-  os.write(&(dataPtr->_index),sizeof(dataPtr->_index));
++  os.write((char*)&(dataPtr->_index),sizeof(dataPtr->_index));
+ 
+   if (flowIndex & CflowdRawFlow::k_routerMask)
+-    os.write(&(dataPtr->_router),sizeof(dataPtr->_router));
++    os.write((char*)&(dataPtr->_router),sizeof(dataPtr->_router));
+   if (flowIndex & CflowdRawFlow::k_srcIpAddrMask)
+-    os.write(&(dataPtr->_srcIpAddr),sizeof(dataPtr->_srcIpAddr));
++    os.write((char*)&(dataPtr->_srcIpAddr),sizeof(dataPtr->_srcIpAddr));
+   if (flowIndex & CflowdRawFlow::k_dstIpAddrMask)
+-    os.write(&(dataPtr->_dstIpAddr),sizeof(dataPtr->_dstIpAddr));
++    os.write((char*)&(dataPtr->_dstIpAddr),sizeof(dataPtr->_dstIpAddr));
+   if (flowIndex & CflowdRawFlow::k_inputIfIndexMask)
+-    os.write(&(dataPtr->_inputIfIndex),sizeof(dataPtr->_inputIfIndex));
++    os.write((char*)&(dataPtr->_inputIfIndex),sizeof(dataPtr->_inputIfIndex));
+   if (flowIndex & CflowdRawFlow::k_outputIfIndexMask)
+-    os.write(&(dataPtr->_outputIfIndex),sizeof(dataPtr->_outputIfIndex));
++    os.write((char*)&(dataPtr->_outputIfIndex),sizeof(dataPtr->_outputIfIndex));
+   if (flowIndex & CflowdRawFlow::k_srcPortMask)
+-    os.write(&(dataPtr->_srcPort),sizeof(dataPtr->_srcPort));
++    os.write((char*)&(dataPtr->_srcPort),sizeof(dataPtr->_srcPort));
+   if (flowIndex & CflowdRawFlow::k_dstPortMask)
+-    os.write(&(dataPtr->_dstPort),sizeof(dataPtr->_dstPort));
++    os.write((char*)&(dataPtr->_dstPort),sizeof(dataPtr->_dstPort));
+   if (flowIndex & CflowdRawFlow::k_pktsMask)
+-    os.write(&(dataPtr->_pkts),sizeof(dataPtr->_pkts));
++    os.write((char*)&(dataPtr->_pkts),sizeof(dataPtr->_pkts));
+   if (flowIndex & CflowdRawFlow::k_bytesMask)
+-    os.write(&(dataPtr->_bytes),sizeof(dataPtr->_bytes));
++    os.write((char*)&(dataPtr->_bytes),sizeof(dataPtr->_bytes));
+   if (flowIndex & CflowdRawFlow::k_ipNextHopMask)
+-    os.write(&(dataPtr->_ipNextHop),sizeof(dataPtr->_ipNextHop));
++    os.write((char*)&(dataPtr->_ipNextHop),sizeof(dataPtr->_ipNextHop));
+   if (flowIndex & CflowdRawFlow::k_startTimeMask)
+-    os.write(&(dataPtr->_startTime),sizeof(dataPtr->_startTime));
++    os.write((char*)&(dataPtr->_startTime),sizeof(dataPtr->_startTime));
+   if (flowIndex & CflowdRawFlow::k_endTimeMask)
+-    os.write(&(dataPtr->_endTime),sizeof(dataPtr->_endTime));
++    os.write((char*)&(dataPtr->_endTime),sizeof(dataPtr->_endTime));
+   if (flowIndex & CflowdRawFlow::k_protocolMask)
+-    os.write(&(dataPtr->_protocol),sizeof(dataPtr->_protocol));
++    os.write((char*)&(dataPtr->_protocol),sizeof(dataPtr->_protocol));
+   if (flowIndex & CflowdRawFlow::k_tosMask)
+-    os.write(&(dataPtr->_tos),sizeof(dataPtr->_tos));
++    os.write((char*)&(dataPtr->_tos),sizeof(dataPtr->_tos));
+   if (flowIndex & CflowdRawFlow::k_srcAsMask)
+-    os.write(&(dataPtr->_srcAs),sizeof(dataPtr->_srcAs));
++    os.write((char*)&(dataPtr->_srcAs),sizeof(dataPtr->_srcAs));
+   if (flowIndex & CflowdRawFlow::k_dstAsMask)
+-    os.write(&(dataPtr->_dstAs),sizeof(dataPtr->_dstAs));
++    os.write((char*)&(dataPtr->_dstAs),sizeof(dataPtr->_dstAs));
+   if (flowIndex & CflowdRawFlow::k_srcMaskLenMask)
+-    os.write(&(dataPtr->_srcMaskLen),sizeof(dataPtr->_srcMaskLen));
++    os.write((char*)&(dataPtr->_srcMaskLen),sizeof(dataPtr->_srcMaskLen));
+   if (flowIndex & CflowdRawFlow::k_dstMaskLenMask)
+-    os.write(&(dataPtr->_dstMaskLen),sizeof(dataPtr->_dstMaskLen));
++    os.write((char*)&(dataPtr->_dstMaskLen),sizeof(dataPtr->_dstMaskLen));
+   if (flowIndex & CflowdRawFlow::k_tcpFlagsMask)
+-    os.write(&(dataPtr->_tcpFlags),sizeof(dataPtr->_tcpFlags));
++    os.write((char*)&(dataPtr->_tcpFlags),sizeof(dataPtr->_tcpFlags));
+   if (flowIndex & CflowdRawFlow::k_inputEncapMask)
+-    os.write(&(dataPtr->_inputEncap),sizeof(dataPtr->_inputEncap));
++    os.write((char*)&(dataPtr->_inputEncap),sizeof(dataPtr->_inputEncap));
+   if (flowIndex & CflowdRawFlow::k_outputEncapMask)
+-    os.write(&(dataPtr->_outputEncap),sizeof(dataPtr->_outputEncap));
++    os.write((char*)&(dataPtr->_outputEncap),sizeof(dataPtr->_outputEncap));
+   if (flowIndex & CflowdRawFlow::k_peerNextHopMask)
+-    os.write(&(dataPtr->_peerNextHop),sizeof(dataPtr->_peerNextHop));
++    os.write((char*)&(dataPtr->_peerNextHop),sizeof(dataPtr->_peerNextHop));
+   if (flowIndex & CflowdRawFlow::k_engineTypeMask)
+-    os.write(&(dataPtr->_engineType),sizeof(dataPtr->_engineType));
++    os.write((char*)&(dataPtr->_engineType),sizeof(dataPtr->_engineType));
+   if (flowIndex & CflowdRawFlow::k_engineIdMask)
+-    os.write(&(dataPtr->_engineId),sizeof(dataPtr->_engineId));
++    os.write((char*)&(dataPtr->_engineId),sizeof(dataPtr->_engineId));
+   
+   return(os);
+ }
+--- cflowd-2-1-b1/classes/src/CflowdRawFlowConverter.cc.orig	Thu Feb  4 23:03:18 1999
++++ cflowd-2-1-b1/classes/src/CflowdRawFlowConverter.cc	Fri Feb 13 19:33:26 2004
+@@ -47,6 +47,8 @@
+ 
+ #include "CflowdRawFlowConverter.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ //-------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/src/Signal.cc.orig	Mon Sep 14 19:06:33 1998
++++ cflowd-2-1-b1/classes/src/Signal.cc	Fri Feb 13 19:42:03 2004
+@@ -11,6 +11,8 @@
+ #include <string>
+ #include "Signal.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ static sigset_t _caughtSignals;
+--- cflowd-2-1-b1/classes/src/CflowdFlowPortList.cc.orig	Fri Dec 11 11:17:49 1998
++++ cflowd-2-1-b1/classes/src/CflowdFlowPortList.cc	Fri Feb 13 19:46:56 2004
+@@ -61,6 +61,8 @@
+ 
+ #include "CflowdFlowPortList.hh"
+ 
++using namespace std;
++
+ static const string rcsid = "@(#) $Name$ $Id$";
+ 
+ //-------------------------------------------------------------------------
+--- cflowd-2-1-b1/classes/src/CflowdFlowFilter.cc.orig	Fri Dec 11 12:05:25 1998
++++ cflowd-2-1-b1/classes/src/CflowdFlowFilter.cc	Fri Feb 13 19:59:59 2004
+@@ -42,6 +42,8 @@
+ 
+ #include "CflowdFlowFilter.hh"
+ 
++using namespace std;
++
+ extern int          flowfiltparse (void);
+ 
+ static const string rcsid = "@(#) $Name$ $Id$";
+--- cflowd-2-1-b1/snmp++/classes/include/snmp++/oid.h.orig	Wed Aug 18 08:56:22 1999
++++ cflowd-2-1-b1/snmp++/classes/include/snmp++/oid.h	Fri Feb 13 19:04:58 2004
+@@ -62,6 +62,8 @@
+ #include "smival.h"                // derived class for all values
+ #include "collect.h"
+ 
++using std::vector;
++
+ //-----------------------------------------------------------------------
+ //------------[ SNMP++ OID CLASS DEF  ]----------------------------------
+ //-----------------------------------------------------------------------
