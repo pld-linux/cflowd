@@ -1,0 +1,51 @@
+--- cflowd-2-1-b1/dwm.m4.orig	Thu Oct 15 06:48:57 1998
++++ cflowd-2-1-b1/dwm.m4	Fri Feb 13 19:03:49 2004
+@@ -88,8 +88,8 @@
+   $1=$2
+   AC_ARG_WITH([$1],
+               [  --with-$1=value set default \$$1 to value],
+-              [$1=$withval; /usr/bin/printf "%s set to %s\n" [$1] $withval],
+-	      [/usr/bin/printf "%s set to %s [(default)]\n" [$1] [$2]]
++              [$1=$withval; printf "%s set to %s\n" [$1] $withval],
++	      [printf "%s set to %s [(default)]\n" [$1] [$2]]
+   )dnl
+   AC_SUBST([$1])
+   if test -z "$dwm_install_max_name_len" ; then
+@@ -116,8 +116,8 @@
+   $1=$2
+   AC_ARG_WITH([$1],
+     [  --with-$1=value   set \$$1 to value ($3)],
+-    [$1=$withval; /usr/bin/printf "%s set to %s\n" [$1] $withval],
+-    [/usr/bin/printf "%s set to %s [(default)]\n" [$1] [$2]]
++    [$1=$withval; printf "%s set to %s\n" [$1] $withval],
++    [printf "%s set to %s [(default)]\n" [$1] [$2]]
+   )dnl
+   AC_SUBST([$1])
+   if test -z "$dwm_prereq_max_name_len" ; then
+@@ -146,7 +146,7 @@
+   dwm_val_index=0
+   for dwm_prereq_value in $dwm_prereq_vals ; do
+     if test "$dwm_name_index" = "$dwm_val_index"; then
+-      /usr/bin/printf "    %${dwm_prereq_max_name_len}s:  %s\n" $dwm_prereq_name $dwm_prereq_value
++      printf "    %${dwm_prereq_max_name_len}s:  %s\n" $dwm_prereq_name $dwm_prereq_value
+     fi
+     dwm_val_index=`expr $dwm_val_index + 1`
+   done
+@@ -169,7 +169,7 @@
+   dwm_val_index=0
+   for dwm_install_value in $dwm_install_vals ; do
+     if test "$dwm_name_index" = "$dwm_val_index"; then
+-      /usr/bin/printf "    %${dwm_install_max_name_len}s:  %s\n" $dwm_install_name $dwm_install_value
++      printf "    %${dwm_install_max_name_len}s:  %s\n" $dwm_install_name $dwm_install_value
+     fi
+     dwm_val_index=`expr $dwm_val_index + 1`
+   done
+@@ -180,7 +180,7 @@
+   dwm_val_index=0
+   for dwm_install_value in $dwm_preset_path_values ; do
+     if test "$dwm_name_index" = "$dwm_val_index"; then
+-      /usr/bin/printf "    %${dwm_install_max_name_len}s:  %s\n" $dwm_install_name $dwm_install_value
++      printf "    %${dwm_install_max_name_len}s:  %s\n" $dwm_install_name $dwm_install_value
+     fi
+     dwm_val_index=`expr $dwm_val_index + 1`
+   done
