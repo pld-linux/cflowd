@@ -1,12 +1,15 @@
 diff -urN cflowd-2-1-b1.org/classes/src/config.lex cflowd-2-1-b1/classes/src/config.lex
 --- cflowd-2-1-b1.org/classes/src/config.lex	2003-09-11 23:04:06.000000000 +0200
-+++ cflowd-2-1-b1/classes/src/config.lex	2003-09-11 23:04:37.000000000 +0200
-@@ -48,6 +48,8 @@
++++ cflowd-2-1-b1/classes/src/config.lex	2003-09-11 23:12:26.000000000 +0200
+@@ -48,8 +48,11 @@
  	    msg);
      return;
    }
 +
-+  extern int yywrap ( void );
  %}
  
++%option noyywrap
++
  matched_OPTIONS ^[ \t]*OPTIONS[\t ]*[{][\t ]*
+ matched_LOGFACILITY ^[ \t]*LOGFACILITY[:][\t ]*
+ matched_TCPCOLLECTPORT ^[ \t]*TCPCOLLECTPORT[:][\t ]*
