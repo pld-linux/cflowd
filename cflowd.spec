@@ -10,6 +10,8 @@ Source0:	ftp://ftp.caida.org/pub/cflowd/%{name}-2-1-b1.tar.gz
 # Source0-md5:	6f0543390e9d46c4274f6b12b6517f62
 Source1:	%{name}.init
 Patch0:		%{name}-yywrap.patch
+# http://net.doit.wisc.edu/~plonka/cflowd/cflowd-2-1-b1-djp.patch
+Patch1:		http://net.doit.wisc.edu/~plonka/cflowd/cflowd-djp.patch
 BuildRequires:	arts++-devel
 BuildRequires:	flex
 BuildRequires:	bison
@@ -58,6 +60,7 @@ Static cflowd libraries.
 %prep
 %setup -q -n %{name}-2-1-b1
 %patch0 -p1
+%patch1 -p0
 
 %build
 chmod u+w *.m4 configure
