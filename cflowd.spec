@@ -12,16 +12,20 @@ Source1:	%{name}.init
 Patch0:		%{name}-yywrap.patch
 # http://net.doit.wisc.edu/~plonka/cflowd/cflowd-2-1-b1-djp.patch
 Patch1:		http://net.doit.wisc.edu/~plonka/cflowd/cflowd-djp.patch
+Patch2:		%{name}-gcc3.patch
+Patch3:		%{name}-link.patch
+Patch4:		%{name}-printf.patch
 URL:		http://www.caida.org/tools/measurement/cflowd/
 BuildRequires:	arts++-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	flex
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:1.4d-3
 BuildRequires:	perl-base
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:      cflowd0-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -69,7 +73,7 @@ Biblioteki cflowd.
 Summary:        Header files and development documentation for cflowd
 Summary(pl):	Pliki nag³ówkowe i dokumentacja programisty dla cflowd
 Group:          Development/Libraries
-Requires:       %{name}-libs = %{epoch}:%{version}
+Requires:       %{name}-libs = %{epoch}:%{version}-%{release}
 
 %description devel
 Header files and development documentation for cflowd.
@@ -81,7 +85,7 @@ Pliki nag³ówkowe i dokumentacja programisty dla cflowd.
 Summary:        Static cflowd libraries
 Summary(pl):	Statyczne biblioteki cflowd
 Group:          Development/Libraries
-Requires:       %{name} = %{epoch}:%{version}
+Requires:       %{name} = %{epoch}:%{version}-%{release}
 
 %description static
 Static cflowd libraries.
@@ -93,6 +97,9 @@ Statyczne biblioteki cflowd.
 %setup -q -n %{name}-2-1-b1
 %patch0 -p1
 %patch1 -p0
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
 chmod u+w *.m4 configure
@@ -103,7 +110,6 @@ chmod u+w *.m4 configure
 	--enable-shared
 
 perl -pi -e 's#libtool#libtool --tag=CXX#g' Makefile* */Makefile* */*/Makefile* */*/*/Makefile*
-perl -pi -e 's#/usr/local/arts/include/#%{_includedir}/arts++/#g' Makefile* */Makefile* */*/Makefile* */*/*/Makefile*
 
 %{__make} \
 	ARTSPPINC="-I%{_includedir}/arts++" \
