@@ -1,0 +1,15 @@
+--- cflowd-2-1-b1/configure.in.orig	Tue May 23 21:50:36 2000
++++ cflowd-2-1-b1/configure.in	Fri Feb 13 19:04:33 2004
+@@ -20,9 +20,9 @@
+ AM_DISABLE_SHARED
+ AM_PROG_LIBTOOL
+ 
+-AC_CHECK_LIB(nsl, inet_ntoa)
+-AC_CHECK_LIB(socket, socket)
+-AC_CHECK_LIB(compat, ftok)
++AC_SEARCH_LIBS(inet_ntoa, nsl)
++AC_SEARCH_LIBS(socket, socket)
++AC_SEARCH_LIBS(ftok, compat)
+ 
+ AC_CHECK_HEADERS(sys/filio.h sys/termios.h sys/select.h sys/time.h)
+ AC_CHECK_FUNCS(strcasecmp)
