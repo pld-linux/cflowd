@@ -26,7 +26,7 @@ BuildRequires:	perl-base
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
-Obsoletes:      cflowd0-devel
+Obsoletes:	cflowd0-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sysconfdir	/etc/%{name}
@@ -59,9 +59,9 @@ u¿ytkowników, magazynowanie danych, a tak¿e badania zwi±zane z
 bezpieczeñstwem.
 
 %package libs
-Summary:        cflowd libraries
+Summary:	cflowd libraries
 Summary(pl):	Biblioteki cflowd
-Group:          Libraries
+Group:		Libraries
 
 %description libs
 cflowd libraries.
@@ -70,10 +70,10 @@ cflowd libraries.
 Biblioteki cflowd.
 
 %package devel
-Summary:        Header files and development documentation for cflowd
+Summary:	Header files and development documentation for cflowd
 Summary(pl):	Pliki nag³ówkowe i dokumentacja programisty dla cflowd
-Group:          Development/Libraries
-Requires:       %{name}-libs = %{epoch}:%{version}-%{release}
+Group:		Development/Libraries
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 
 %description devel
 Header files and development documentation for cflowd.
@@ -82,10 +82,10 @@ Header files and development documentation for cflowd.
 Pliki nag³ówkowe i dokumentacja programisty dla cflowd.
 
 %package static
-Summary:        Static cflowd libraries
+Summary:	Static cflowd libraries
 Summary(pl):	Statyczne biblioteki cflowd
-Group:          Development/Libraries
-Requires:       %{name} = %{epoch}:%{version}-%{release}
+Group:		Development/Libraries
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description static
 Static cflowd libraries.
@@ -142,17 +142,17 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add %{name}
 if [ -f /var/lock/subsys/%{name} ]; then
-        /etc/rc.d/init.d/%{name} restart 1>&2
+	/etc/rc.d/init.d/%{name} restart 1>&2
 else
-        echo "Run \"/etc/rc.d/init.d/%{name} start\" to start %{name} service."
+	echo "Run \"/etc/rc.d/init.d/%{name} start\" to start %{name} service."
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-        if [ -f /var/lock/subsys/%{name} ]; then
-                /etc/rc.d/init.d/%{name} stop 1>&2
-        fi
-        /sbin/chkconfig --del %{name}
+	if [ -f /var/lock/subsys/%{name} ]; then
+		/etc/rc.d/init.d/%{name} stop 1>&2
+	fi
+	/sbin/chkconfig --del %{name}
 fi
 
 %post	libs -p /sbin/ldconfig
