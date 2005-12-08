@@ -20,13 +20,13 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/cflowd ]; then
 		msg_starting cflowdmux
-		daemon /usr/sbin/cflowdmux 
+		daemon /usr/sbin/cflowdmux
 		RETVAL=$?
 		msg_starting cflowd
 		daemon /usr/sbin/cflowd
 		NEW_RETVAL=$?
 		[ $RETVAL -eq 0 ] && RETVAL=$NEW_RETVAL
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/cflowd		
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/cflowd
 	else
 		msg_already_running "cflowdmux/cflowd"
 	fi
@@ -40,7 +40,7 @@ case "$1" in
 		rm -f /var/run/cflowd*.pid /var/lock/subsys/cflowd >/dev/null 2>&1
 	else
 		msg_not_running "cflowdmux/cflowd"
-	fi	
+	fi
 	;;
   restart)
 	$0 stop
