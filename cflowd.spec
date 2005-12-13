@@ -11,7 +11,7 @@ Source0:	ftp://ftp.caida.org/pub/cflowd/%{name}-2-1-b1.tar.gz
 Source1:	%{name}.init
 Patch0:		%{name}-yywrap.patch
 # http://net.doit.wisc.edu/~plonka/cflowd/cflowd-2-1-b1-djp.patch
-Patch1:		http://net.doit.wisc.edu/~plonka/cflowd/cflowd-djp.patch
+Patch1:		http://net.doit.wisc.edu/~plonka/cflowd/%{name}-djp.patch
 Patch2:		%{name}-gcc3.patch
 Patch3:		%{name}-link.patch
 Patch4:		%{name}-printf.patch
@@ -23,9 +23,9 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool >= 2:1.4d-3
 BuildRequires:	perl-base
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
+Requires:	rc-scripts
 Obsoletes:	cflowd0-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
