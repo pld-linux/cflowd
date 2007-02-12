@@ -1,5 +1,5 @@
 Summary:	Traffic Flow Analysis Tool
-Summary(pl):	Narzêdzie do analizy przep³ywu ruchu w sieci
+Summary(pl.UTF-8):   NarzÄ™dzie do analizy przepÅ‚ywu ruchu w sieci
 Name:		cflowd
 Version:	2.1.b1
 Release:	1
@@ -45,53 +45,53 @@ accounting and billing, network planning and analysis, network
 monitoring, developing user profiles, data warehousing and mining, as
 well as security-related investigations.
 
-%description -l pl
-cflowd to narzêdzie do analizy przep³ywu ruchu w sieci aktualnie
-u¿ywane dla switchy Cisco z w³±czonym mechanizmem NetFlow. Aktualne
-wydanie (opisane poni¿ej) zawiera kolekcje, przechowywanie danych oraz
-podstawowe modu³y do analizy dla bibliotek cflowd i arts++. Ten pakiet
-do analizy pozwala na zbieranie danych i analizê przez ISP oraz
-in¿ynierów sieciowych wspieraj±cych planowanie mo¿liwo¶ci sieci,
-analizê trendów oraz charakterystykê obci±¿eñ w ¶rodowisku providera
-us³ug sieciowych. Inne obszary, gdzie cflowd mo¿e siê okazaæ
-przydatny, obejmuj± ¶ledzenie hostowania WWW, naliczanie rachunków,
-planowanie i analizê sieci, monitorowanie sieci, tworzenie profili
-u¿ytkowników, magazynowanie danych, a tak¿e badania zwi±zane z
-bezpieczeñstwem.
+%description -l pl.UTF-8
+cflowd to narzÄ™dzie do analizy przepÅ‚ywu ruchu w sieci aktualnie
+uÅ¼ywane dla switchy Cisco z wÅ‚Ä…czonym mechanizmem NetFlow. Aktualne
+wydanie (opisane poniÅ¼ej) zawiera kolekcje, przechowywanie danych oraz
+podstawowe moduÅ‚y do analizy dla bibliotek cflowd i arts++. Ten pakiet
+do analizy pozwala na zbieranie danych i analizÄ™ przez ISP oraz
+inÅ¼ynierÃ³w sieciowych wspierajÄ…cych planowanie moÅ¼liwoÅ›ci sieci,
+analizÄ™ trendÃ³w oraz charakterystykÄ™ obciÄ…Å¼eÅ„ w Å›rodowisku providera
+usÅ‚ug sieciowych. Inne obszary, gdzie cflowd moÅ¼e siÄ™ okazaÄ‡
+przydatny, obejmujÄ… Å›ledzenie hostowania WWW, naliczanie rachunkÃ³w,
+planowanie i analizÄ™ sieci, monitorowanie sieci, tworzenie profili
+uÅ¼ytkownikÃ³w, magazynowanie danych, a takÅ¼e badania zwiÄ…zane z
+bezpieczeÅ„stwem.
 
 %package libs
 Summary:	cflowd libraries
-Summary(pl):	Biblioteki cflowd
+Summary(pl.UTF-8):   Biblioteki cflowd
 Group:		Libraries
 
 %description libs
 cflowd libraries.
 
-%description libs -l pl
+%description libs -l pl.UTF-8
 Biblioteki cflowd.
 
 %package devel
 Summary:	Header files and development documentation for cflowd
-Summary(pl):	Pliki nag³ówkowe i dokumentacja programisty dla cflowd
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe i dokumentacja programisty dla cflowd
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 
 %description devel
 Header files and development documentation for cflowd.
 
-%description devel -l pl
-Pliki nag³ówkowe i dokumentacja programisty dla cflowd.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe i dokumentacja programisty dla cflowd.
 
 %package static
 Summary:	Static cflowd libraries
-Summary(pl):	Statyczne biblioteki cflowd
+Summary(pl.UTF-8):   Statyczne biblioteki cflowd
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description static
 Static cflowd libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczne biblioteki cflowd.
 
 %prep
