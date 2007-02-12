@@ -1,5 +1,5 @@
 Summary:	Traffic Flow Analysis Tool
-Summary(pl.UTF-8):   Narzędzie do analizy przepływu ruchu w sieci
+Summary(pl.UTF-8):	Narzędzie do analizy przepływu ruchu w sieci
 Name:		cflowd
 Version:	2.1.b1
 Release:	1
@@ -61,7 +61,7 @@ bezpieczeństwem.
 
 %package libs
 Summary:	cflowd libraries
-Summary(pl.UTF-8):   Biblioteki cflowd
+Summary(pl.UTF-8):	Biblioteki cflowd
 Group:		Libraries
 
 %description libs
@@ -72,7 +72,7 @@ Biblioteki cflowd.
 
 %package devel
 Summary:	Header files and development documentation for cflowd
-Summary(pl.UTF-8):   Pliki nagłówkowe i dokumentacja programisty dla cflowd
+Summary(pl.UTF-8):	Pliki nagłówkowe i dokumentacja programisty dla cflowd
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 
@@ -84,7 +84,7 @@ Pliki nagłówkowe i dokumentacja programisty dla cflowd.
 
 %package static
 Summary:	Static cflowd libraries
-Summary(pl.UTF-8):   Statyczne biblioteki cflowd
+Summary(pl.UTF-8):	Statyczne biblioteki cflowd
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
